@@ -7,7 +7,6 @@ const axiosInstance = axios.create({
     "x-rapidapi-host": import.meta.env.VITE_RAPIDAPI_HOST,
     "Content-Type": "application/json",
   },
-  withCredentials: true,
 });
 
-export default axiosInstance
+export default axiosInstance;

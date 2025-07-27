@@ -6,13 +6,13 @@ import { LucideBoxSelect } from "lucide-react";
 import JobModal from "../components/Modal/JobModal";
 
 function JobDetails() {
-    const jobModalRef = useRef(null);
-    const handleOpenModal = () => {
-        jobModalRef.current?.showModal();
-    }
+  const jobModalRef = useRef(null);
+  const handleOpenModal = () => {
+    jobModalRef.current?.showModal();
+  };
   return (
     <Container>
-      <div className="py-10">
+      <div className="py-10 px-5">
         {/* Breadcumbs  */}
         <h4 className="font-semibold text-base-content">
           <span className="text-base-content font-normal">Home</span> / Software

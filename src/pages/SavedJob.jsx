@@ -5,7 +5,7 @@ import SecondaryBtn from "../components/Buttons/SecondaryBtn";
 function SavedJob() {
   return (
     <Container>
-      <div className="py-10">
+      <div className="py-10 px-5">
         <h2 className="font-semibold text-3xl mb-6 text-center">Saved jobs</h2>
         {/* table */}
         <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
