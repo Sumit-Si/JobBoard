@@ -1,25 +1,30 @@
 import axiosInstance from "../libs/axios";
 import { useEffect, useState } from "react";
 
-const useSearchJob = () => {
+const useSearchJob = (filters) => {
+  console.log(filters, "useSearch");
+
   const [jobList, setJobList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState(filters?.searchVal || "developer");
+  const [datePosted, setDatePosted] = useState(filters?.datePostedVal || "all");
 
   const fetchJob = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      //   const res = await axiosInstance.get("/search", {
-      //     params: {
-      //       query: "developer",
-      //       page: 1,
-      //       num_pages: 1,
-      //       country: "in",
-      //       date_posted: "all",
-      //     },
-      //   });
+      // const res = await axiosInstance.get("/search", {
+      //   params: {
+      //     query: search,
+      //     page: page,
+      //     num_pages: 1,
+      //     country: "in",
+      //     date_posted: datePosted,
+      //   },
+      // });
       const res = {
         status: 200,
         data: {
@@ -623,9 +628,9 @@ const useSearchJob = () => {
 
   useEffect(() => {
     fetchJob();
-  }, []);
+  }, [page, search, datePosted, location]);
 
-  return { jobList, loading, error };
+  return { jobList, loading, error, page, setPage };
 };
 
 export default useSearchJob;

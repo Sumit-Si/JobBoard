@@ -6,7 +6,7 @@ import useSearchJob from "../hooks/useSearchJob";
 import Job from "../components/Home/Job";
 
 function Home() {
-  const { jobList, loading, error } = useSearchJob();
+  const { jobList, loading, error, page, setPage } = useSearchJob();
 
   if (loading) return <h2>Loading...</h2>;
 
@@ -33,11 +33,20 @@ function Home() {
 
             {/* Pagination  */}
             <div className="join mx-auto py-5">
-              <button className="join-item btn">1</button>
-              <button className="join-item btn">2</button>
-              <button className="join-item btn btn-disabled">...</button>
-              <button className="join-item btn">9</button>
-              <button className="join-item btn">10</button>
+              <button
+                className="join-item btn"
+                disabled={page === 1}
+                onClick={() => setPage((prev) => prev - 1)}
+              >
+                «
+              </button>
+              <button className="join-item btn">Page {page}</button>
+              <button
+                className="join-item btn"
+                onClick={() => setPage((prev) => prev + 1)}
+              >
+                »
+              </button>
             </div>
           </div>
         </div>

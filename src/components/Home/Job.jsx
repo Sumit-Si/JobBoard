@@ -9,12 +9,32 @@ function Job({ job }) {
         <h4 className="text-sm text-base-content/80">
           Posted {job.job_posted_at}
         </h4>
-        <Link to={`/details/${job?.job_id}`}><h3 className="font-bold hover:text-primary/80 duration-200">{job.job_title}</h3></Link>
-        <h4 className="text-sm text-base-content/80 mb-4">
-          {job.employer_name} {job.job_is_remote && -(<span>Remote</span>)}
+        <Link className="w-fit block" to={`/details/${job?.job_id}`}>
+          <h3 className="font-bold hover:text-primary/80 duration-200">
+            {job.job_title}
+          </h3>
+        </Link>
+        <h4 className="text-sm text-base-content/80">
+          {job.employer_name}{" "}
+          {job.job_location && <span>- {job.job_location}</span>}{" "}
+          {job.job_is_remote && <span>- Remote</span>}
         </h4>
+        {job.job_employment_types.length > 0 && (
+          <div className="flex gap-1 items-center mt-2">
+            {job.job_employment_types.map((jobType, index) => (
+              <h4
+                key={index}
+                className="text-xs ring ring-primary/80 text-primary/80 py-1 font-semibold px-3 rounded-lg tracking-wider capitalize"
+              >
+                {String(jobType).toLowerCase()}
+              </h4>
+            ))}
+          </div>
+        )}
 
-        <SecondaryBtn>Apply</SecondaryBtn>
+        <div className="mt-8">
+          <SecondaryBtn>Apply</SecondaryBtn>
+        </div>
       </div>
       <div
         id="job-img"
