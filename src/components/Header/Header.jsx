@@ -5,8 +5,7 @@ import { NavLink } from 'react-router-dom'
 
 function Header() {
   return (
-    <Container>
-        <div className='flex sticky z-50 top-0 justify-between shadow-md bg-base-300 items-center p-5'>
+        <div className='flex sticky z-50 top-1 justify-between shadow-md bg-base-300/90 items-center p-5 max-w-6xl mx-auto w-full'>
             <div id="brand">
                 <NavLink to={"/"} className='text-lg font-bold'>HireMe</NavLink>
             </div>
@@ -19,7 +18,6 @@ function Header() {
                 </div>
             </div>
         </div>
-    </Container>
   )
 }
 

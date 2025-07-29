@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 
 export const JobContext = createContext({
-    jobsArr: [],
+    jobs: [],
     savedJobs: [],
     addToSavedJob: (job) => {},
     removeSavedJob: (id) => {},

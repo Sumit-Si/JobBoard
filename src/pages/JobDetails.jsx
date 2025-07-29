@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Container from "../components/Container/Container";
 import PrimaryBtn from "../components/Buttons/PrimaryBtn";
 import SecondaryBtn from "../components/Buttons/SecondaryBtn";
@@ -9,7 +9,7 @@ import { useJob } from "../context/JobContext";
 
 function JobDetails() {
   const { job, loading, error } = useJobDetails();
-  const {savedJobs,addToSavedJob} = useJob();
+  const { savedJobs, addToSavedJob } = useJob();
   const jobModalRef = useRef(null);
   const handleOpenModal = () => {
     jobModalRef.current?.showModal();
@@ -21,10 +21,17 @@ function JobDetails() {
 
   console.log(job, "job");
 
-  const handleClick = (e) => {
-    console.log("clicked inside details");
-    
-  }
+  const handleClick = () => {
+    if (job.length > 0) {
+      addToSavedJob(job[0]);
+    }
+  };
+
+  const disabledById = (jobId) => {
+    return (
+      savedJobs.length > 0 && savedJobs.some((svJob) => svJob.job_id === jobId)
+    );
+  };
 
   return (
     <Container>
@@ -38,7 +45,7 @@ function JobDetails() {
         {/* details  */}
         {job.length > 0 ? (
           job.map((j) => (
-            <div className="mt-8 flex gap-5 flex-col">
+            <div key={j.job_id} className="mt-8 flex gap-5 flex-col">
               <div>
                 <h4 className="text-sm text-base-content/80 mb-1">
                   Posted {j.job_posted_at}
@@ -141,12 +148,19 @@ function JobDetails() {
                 <PrimaryBtn handleOpenModal={handleOpenModal}>
                   Apply Now
                 </PrimaryBtn>
-                <SecondaryBtn handleClick={handleClick}>Save Job</SecondaryBtn>
+                <SecondaryBtn
+                  disabled={disabledById(j.job_id)}
+                  handleClick={handleClick}
+                >
+                  {disabledById(j.job_id) ? "Saved" : "Save Job"}
+                </SecondaryBtn>
               </div>
             </div>
           ))
         ) : (
-          <h2>Job Details Not Found</h2>
+          <div className="bg-base-300 text-base-content/70 text-sm flex justify-center items-center p-5 mt-8 rounded-lg">
+            <h2>Job Details Not Found</h2>
+          </div>
         )}
 
         <JobModal jobModalRef={jobModalRef} />

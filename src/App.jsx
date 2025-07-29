@@ -4,10 +4,11 @@ import { Header, Footer } from "./components/";
 import { Outlet } from "react-router-dom";
 
 function App() {
-  const { jobsArr, savedJobs } = useJob();
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "winter");
-  const [jobs, setJobs] = useState(jobsArr);
-  const [saveJobs, setSaveJobs] = useState(savedJobs);
+  const [jobs, setJobs] = useState([]);
+  const [savedJobs, setSavedJobs] = useState(
+    JSON.parse(localStorage.getItem("savedJobs")) || []
+  );
 
   const darkTheme = () => {
     setTheme("night");
@@ -18,10 +19,16 @@ function App() {
   };
 
   const addToSavedJob = (job) => {
-    // setSaveJobs((prev) => [...prev,])
+    console.log(job, "job get");
+
+    setSavedJobs((prev) => [...prev, job]);
   };
 
-  const removeSavedJob = (id) => {};
+  const removeSavedJob = (id) => {
+    if (id) {
+      setSavedJobs((prev) => prev.filter((prevVal) => prevVal.job_id !== id));
+    }
+  };
 
   useEffect(() => {
     document.querySelector("html").setAttribute("data-theme", "");
@@ -30,10 +37,16 @@ function App() {
   }, [theme]);
 
   useEffect(() => {
+    localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
+  }, [savedJobs]);
+
+  useEffect(() => {
     const theme = localStorage.getItem("theme");
+    const savedJobs = JSON.parse(localStorage.getItem("savedJobs"));
     if (theme) {
       setTheme(theme);
     }
+    if (savedJobs) setSavedJobs(savedJobs);
   }, []);
 
   return (
@@ -48,7 +61,7 @@ function App() {
         removeSavedJob,
       }}
     >
-      <div className="w-full h-full">
+      <div className="w-full min-h-screen relative">
         <Header />
         <Outlet />
         <Footer />
