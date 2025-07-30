@@ -9,7 +9,7 @@ function SavedJob() {
 
   return (
     <Container>
-      <div className="py-10 px-5">
+      <div className="py-10 px-5 h-full">
         <h2 className="font-semibold text-3xl mb-6 text-center">Saved jobs</h2>
         {/* table */}
         <div className="overflow-x-auto  bg-base-100">

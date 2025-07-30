@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "../components/Container/Container";
 import Search from "../components/Search/Search";
 import SecondaryBtn from "../components/Buttons/SecondaryBtn";
@@ -6,7 +6,32 @@ import useSearchJob from "../hooks/useSearchJob";
 import Job from "../components/Home/Job";
 
 function Home() {
-  const { jobList, loading, error, page, setPage } = useSearchJob();
+  const [filters, setFilters] = useState({
+    searchVal: "",
+    locationVal: "",
+    datePostedVal: "",
+    empTypeVal: "",
+  });
+  const { jobList, loading, error, page, setPage, fetchJob } =
+    useSearchJob(filters);
+
+  const handleSearch = () => {
+    fetchJob();
+    setFilters({
+      searchVal: "",
+      locationVal: "",
+      datePostedVal: "",
+      empTypeVal: "",
+    });
+  };
+
+  const handleEmpTypeClick = (type) => {
+    setFilters((prev) => ({ ...prev, empTypeVal: type }));
+  };
+
+  const handleDatePostedClick = (period) => {
+    setFilters((prev) => ({ ...prev, datePostedVal: period }));
+  };
 
   if (loading) return <h2>Loading...</h2>;
 
@@ -17,7 +42,13 @@ function Home() {
   return (
     <Container>
       <div className="w-full h-full px-5">
-        <Search />
+        <Search
+          handleSearch={handleSearch}
+          handleDatePostedClick={handleDatePostedClick}
+          handleEmpTypeClick={handleEmpTypeClick}
+          filters={filters}
+          setFilters={setFilters}
+        />
         <div>
           <h2 className="font-bold text-xl md:mb-5 mb-8">Job Listings</h2>
           <div className="flex gap-12 sm:gap-10 md:gap-5 flex-col">

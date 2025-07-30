@@ -52,7 +52,7 @@ function JobDetails() {
                 </h4>
                 <h2 className="text-3xl mb-3 font-bold">{j.job_title}</h2>
                 <div className="mb-3 flex flex-col gap-0.5">
-                  <h4 className="text-sm text-base-content/80">
+                  <h4 className="text-md text-base-content/80">
                     {j.employer_name} {j.job_is_remote && <span>- Remote</span>}
                   </h4>
                   <h4 className="text-sm text-base-content">
@@ -64,7 +64,7 @@ function JobDetails() {
                       {j.job_employment_types.map((jobType, index) => (
                         <h4
                           key={index}
-                          className="text-xs ring ring-primary/80 text-primary/80 py-1 font-semibold px-3 rounded-lg tracking-wider capitalize"
+                          className="text-sm ring ring-primary/80 text-primary/80 py-1 font-semibold px-3 rounded-lg tracking-wider capitalize"
                         >
                           {String(jobType).toLowerCase()}
                         </h4>

@@ -3,29 +3,22 @@ import React, { useState } from "react";
 import SecondaryBtn from "../Buttons/SecondaryBtn";
 import useSearchJob from "../../hooks/useSearchJob";
 
-function Search() {
-  const [filters, setFilters] = useState({
-    searchVal: "",
-    locationVal: "",
-    datePostedVal: "",
-    empTypeVal: "",
-  });
-  const { jobList, loading, error } = useSearchJob(filters);
-
-  const handleClick = (e) => {
-    console.log("clicked", e.target);
-  };
-
+function Search({
+  handleSearch,
+  handleDatePostedClick,
+  handleEmpTypeClick,
+  filters,
+  setFilters,
+}) {
   return (
     <div className="w-full h-full py-8 flex flex-col gap-5">
       <div id="search-input">
         <label className="input shadow-sm w-full">
-          <SearchIcon />
+          <SearchIcon className="cursor-pointer" onClick={handleSearch} />
           <input
             type="search"
             className=""
             name="searchVal"
-            required
             placeholder="Search"
             onChange={(e) =>
               setFilters({ ...filters, [e.target.name]: e.target.value })
@@ -35,9 +28,21 @@ function Search() {
         </label>
       </div>
       <div className="flex gap-2">
-        <SecondaryBtn>Full-time</SecondaryBtn>
-        <SecondaryBtn>Part-time</SecondaryBtn>
-        <SecondaryBtn>Contract</SecondaryBtn>
+        <SecondaryBtn
+          handleClick={(e) => handleEmpTypeClick(e.target.textContent)}
+        >
+          Full-time
+        </SecondaryBtn>
+        <SecondaryBtn
+          handleClick={(e) => handleEmpTypeClick(e.target.textContent)}
+        >
+          Part-time
+        </SecondaryBtn>
+        <SecondaryBtn
+          handleClick={(e) => handleEmpTypeClick(e.target.textContent)}
+        >
+          Contract
+        </SecondaryBtn>
       </div>
 
       {/* location */}
@@ -56,9 +61,15 @@ function Search() {
       </div>
 
       <div className="flex gap-2">
-        <SecondaryBtn handleClick={handleClick}>Last 24hr</SecondaryBtn>
-        <SecondaryBtn handleClick={handleClick}>Last 7d</SecondaryBtn>
-        <SecondaryBtn handleClick={handleClick}>Last 30d</SecondaryBtn>
+        <SecondaryBtn handleClick={() => handleDatePostedClick("today")}>
+          Last 24hr
+        </SecondaryBtn>
+        <SecondaryBtn handleClick={() => handleEmpTypeClick("week")}>
+          Last 7d
+        </SecondaryBtn>
+        <SecondaryBtn handleClick={() => handleEmpTypeClick("month")}>
+          Last 30d
+        </SecondaryBtn>
       </div>
     </div>
   );

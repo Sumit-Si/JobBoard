@@ -8,8 +8,6 @@ const useSearchJob = (filters) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState(filters?.searchVal || "developer");
-  const [datePosted, setDatePosted] = useState(filters?.datePostedVal || "all");
 
   const fetchJob = async () => {
     try {
@@ -18,13 +16,14 @@ const useSearchJob = (filters) => {
 
       // const res = await axiosInstance.get("/search", {
       //   params: {
-      //     query: search,
+      //     query: filters?.searchVal || "developer",
       //     page: page,
       //     num_pages: 1,
       //     country: "in",
-      //     date_posted: datePosted,
+      //     date_posted: filters?.datePostedVal || "all",
       //   },
       // });
+
       const res = {
         status: 200,
         data: {
@@ -613,14 +612,19 @@ const useSearchJob = (filters) => {
           ],
         },
       };
+
       if (res.status === 200) {
         const { data } = res.data;
         console.log(data, "data");
         setJobList(data);
       }
       console.log(res, "response");
-    } catch (err) {
-      setError(err);
+    } catch (error) {
+      setError(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Failed to fetch jobs"
+      );
     } finally {
       setLoading(false);
     }
@@ -628,9 +632,9 @@ const useSearchJob = (filters) => {
 
   useEffect(() => {
     fetchJob();
-  }, [page, search, datePosted, location]);
+  }, [page, filters?.datePostedVal, filters?.empTypeVal]);
 
-  return { jobList, loading, error, page, setPage };
+  return { jobList, loading, error, page, setPage, fetchJob };
 };
 
 export default useSearchJob;
