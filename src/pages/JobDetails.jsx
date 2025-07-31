@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import Container from "../components/Container/Container";
 import PrimaryBtn from "../components/Buttons/PrimaryBtn";
 import SecondaryBtn from "../components/Buttons/SecondaryBtn";
-import { LucideBoxSelect } from "lucide-react";
+import { ArrowUpRightFromSquare, Dot } from "lucide-react";
 import JobModal from "../components/Modal/JobModal";
 import useJobDetails from "../hooks/useJobDetails";
 import { useJob } from "../context/JobContext";
+import { Link } from "react-router-dom";
 
 function JobDetails() {
   const { job, loading, error } = useJobDetails();
@@ -52,8 +53,17 @@ function JobDetails() {
                 </h4>
                 <h2 className="text-3xl mb-3 font-bold">{j.job_title}</h2>
                 <div className="mb-3 flex flex-col gap-0.5">
-                  <h4 className="text-md text-base-content/80">
-                    {j.employer_name} {j.job_is_remote && <span>- Remote</span>}
+                  <h4 className="text-sm text-base-content/80 flex items-center">
+                    {j.employer_name} <Dot />{" "}
+                    {j.employer_website && (
+                      <Link
+                        className="inline-flex ring-2 ring-secondary text-secondary hover:bg-secondary hover:text-secondary-content font-semibold transition duration-200 px-2 rounded-full text-xs gap-0.5 items-center"
+                        to={j.employer_website}
+                      >
+                        Visit Us <ArrowUpRightFromSquare className="w-3" />
+                      </Link>
+                    )}{" "}
+                    {j.job_is_remote && <span>- Remote</span>}
                   </h4>
                   <h4 className="text-sm text-base-content">
                     <span className="font-semibold">Location:</span>{" "}
@@ -64,7 +74,7 @@ function JobDetails() {
                       {j.job_employment_types.map((jobType, index) => (
                         <h4
                           key={index}
-                          className="text-sm ring ring-primary/80 text-primary/80 py-1 font-semibold px-3 rounded-lg tracking-wider capitalize"
+                          className="text-sm ring ring-primary/80 text-primary/80 py-1 font-semibold px-3 rounded-full tracking-wider capitalize"
                         >
                           {String(jobType).toLowerCase()}
                         </h4>
