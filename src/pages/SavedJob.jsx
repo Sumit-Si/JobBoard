@@ -2,6 +2,7 @@ import React from "react";
 import Container from "../components/Container/Container";
 import SecondaryBtn from "../components/Buttons/SecondaryBtn";
 import { useJob } from "../context";
+import { Link } from "react-router-dom";
 
 function SavedJob() {
   const { savedJobs, removeSavedJob } = useJob();
@@ -28,9 +29,9 @@ function SavedJob() {
               <tbody>
                 {savedJobs.map((job) => (
                   <tr key={job.job_id}>
-                    <th>{job.job_title}</th>
+                    <th><Link className="hover:text-primary" to={`/details/${job.job_id}`}>{job.job_title}</Link></th>
                     <td>{job.employer_name}</td>
-                    <td>{job.job_is_remote ? "Remote" : "On Site"}</td>
+                    <td className={`${job.job_is_remote ? "text-accent" : "text-warning"} text-xs font-semibold`}>{job.job_is_remote ? "Remote" : "On Site"}</td>
                     <td>{job.job_posted_at}</td>
                     <td className="flex gap-4">
                       <SecondaryBtn>Active</SecondaryBtn>

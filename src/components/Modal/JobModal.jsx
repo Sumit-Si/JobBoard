@@ -21,19 +21,12 @@ const applyJobSchema = z.object({
     .trim(),
   resume: z
     .any()
-    .refine((file) => file instanceof File, {
+    .refine((files) => files && files.length > 0 && files[0] instanceof File, {
       message: "Resume file is required",
     })
-    .refine((file) => file?.size <= 10 * 1024 * 1024, {
+    .refine((files) => files[0]?.size <= 10 * 1024 * 1024, {
       message: "Max file size is 10MB",
-    })
-    .refine(
-      (file) =>
-        ["application/pdf", "image/png", "image/jpeg"].includes(file?.type),
-      {
-        message: "Only PDF or image files (png and jpeg) are accepted",
-      }
-    ),
+    }),
 });
 
 function JobModal({ jobModalRef }) {
@@ -44,14 +37,25 @@ function JobModal({ jobModalRef }) {
     reset,
   } = useForm({
     resolver: zodResolver(applyJobSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      linkedinUrl: "",
+      resume: "",
+    }
   });
 
-  const validateForm = (data) => {
-    console.log("form submitted successfully");
-    
+  const closeModal = () => {
     reset();
     jobModalRef.current?.close();
   }
+
+  const validateForm = (data) => {
+    console.log("form submitted successfully");
+
+    reset();
+    jobModalRef.current?.close();
+  };
 
   return (
     <dialog ref={jobModalRef} className="modal">
@@ -60,7 +64,12 @@ function JobModal({ jobModalRef }) {
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-2xl font-semibold">Apply for this Job</h3>
             {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-circle btn-ghost" onClick={() => jobModalRef.current?.close()}>✕</button>
+            <button
+              className="btn btn-circle btn-ghost"
+              onClick={closeModal}
+            >
+              ✕
+            </button>
           </div>
           <div className="flex gap-4 flex-col">
             <div className="flex flex-col gap-1">
@@ -140,14 +149,9 @@ function JobModal({ jobModalRef }) {
                 <div className="flex flex-col items-center text-center">
                   <ImageDown className="text-secondary" />
                   <div className="mt-4 flex text-sm/tight text-base-content">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md font-semibold text-secondary  hover:text-secondary/80"
-                    >
+                    <label className="relative cursor-pointer rounded-md font-semibold text-secondary  hover:text-secondary/80">
                       <span>Upload a file</span>
                       <input
-                        id="resume"
-                        name="file-upload"
                         {...register("resume")}
                         type="file"
                         className={`input sr-only  w-full ${
@@ -158,16 +162,16 @@ function JobModal({ jobModalRef }) {
                     <p className="pl-1">or drag and drop</p>
                   </div>
                   <p className="text-xs/tight">PNG, JPG, GIF up to 10MB</p>
-                      {errors.resume && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.resume.message}
-                        </p>
-                      )}
+                  {errors.resume && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.resume.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
             <div className="flex justify-end items-center">
-              <SecondaryBtn>Cancel</SecondaryBtn>
+              <SecondaryBtn handleClick={closeModal}>Cancel</SecondaryBtn>
               <PrimaryBtn type={"submit"}>Submit Application</PrimaryBtn>
             </div>
           </div>

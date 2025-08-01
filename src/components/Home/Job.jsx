@@ -42,7 +42,7 @@ function Job({ job }) {
       >
         <img
           className="sm:w-full sm:h-full w-3/5 rounded-lg"
-          src={job.employer_logo}
+          src={job.employer_logo || "https://placehold.co/400"}
           alt="company-image"
         />
       </div>

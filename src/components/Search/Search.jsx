@@ -27,7 +27,7 @@ function Search({
           />
         </label>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         <SecondaryBtn
           handleClick={(e) => handleEmpTypeClick(e.target.textContent)}
         >
@@ -50,7 +50,7 @@ function Search({
         <input
           type="text"
           name="locationVal"
-          className="input w-4/12"
+          className="input w-full sm:w-4/12"
           required
           placeholder="Location"
           onChange={(e) =>
@@ -60,7 +60,7 @@ function Search({
         />
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         <SecondaryBtn handleClick={() => handleDatePostedClick("today")}>
           Last 24hr
         </SecondaryBtn>
